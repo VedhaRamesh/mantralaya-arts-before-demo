@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Mantralaya Arts - New Renewed",
+  "description": "Mobile-first devotional shopping PWA for temple gifts, deity idols, pooja essentials, and spiritual accessories with multi-role order workflows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

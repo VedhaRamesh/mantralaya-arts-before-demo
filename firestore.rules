@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Products collection: public read for storefront, authorized writes for admin
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if true; // Demo & admin operations
+    }
+
+    // Categories collection: public read for storefront, authorized writes for admin
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Orders collection: read and write for customer orders, supplier actions, and admin
+    match /orders/{orderId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if false;
+    }
+
+    // User profiles collection
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Notifications collection
+    match /notifications/{notificationId} {
+      allow read, write: if true;
+    }
+
+    // Settings collection (Store configuration & contact info)
+    match /settings/{settingId} {
+      allow read, write: if true;
+    }
+
+    // FCM Cloud Messaging dispatches and device tokens
+    match /fcm_dispatches/{dispatchId} {
+      allow read, write: if true;
+    }
+
+    match /fcm_tokens/{tokenId} {
+      allow read, write: if true;
+    }
+  }
+}

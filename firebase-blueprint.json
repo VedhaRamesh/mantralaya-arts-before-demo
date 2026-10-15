@@ -1,0 +1,174 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Devotional product available in the Mantralaya Arts catalogue",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "price": { "type": "number" },
+        "stockQuantity": { "type": "number" },
+        "category": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "INACTIVE", "OUT_OF_STOCK"] },
+        "imageUrl": { "type": "string" },
+        "material": { "type": "string" },
+        "dimensions": { "type": "string" },
+        "weight": { "type": "string" },
+        "isFeatured": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "price", "stockQuantity", "category", "status"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Storefront product category",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["id", "name", "slug", "isActive"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Devotional customer order record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "deliveryAddress": { "type": "string" },
+        "customerNotes": { "type": "string" },
+        "items": { "type": "array" },
+        "originalTotal": { "type": "number" },
+        "revisedTotal": { "type": "number" },
+        "currentStatus": { "type": "string" },
+        "supplierId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "supplierDecisionNotes": { "type": "string" },
+        "rejectionReason": { "type": "string" },
+        "decisionTimestamp": { "type": "string" },
+        "statusHistory": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "orderNumber", "customerId", "customerName", "customerPhone", "deliveryAddress", "items", "originalTotal", "revisedTotal", "currentStatus"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Customer, supplier, or administrator profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["ADMIN", "SUPPLIER", "CUSTOMER"] },
+        "accessPin": { "type": "string" },
+        "deliveryAddress": { "type": "string" },
+        "notes": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "INACTIVE"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "fullName", "email", "phone", "role", "status"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "In-app notifications for order status changes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "recipientRole": { "type": "string" },
+        "recipientUserId": { "type": "string" },
+        "orderId": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "recipientRole", "orderId", "title", "message", "type", "isRead"]
+    },
+    "ShopSettings": {
+      "title": "ShopSettings",
+      "description": "Store contact and payment configurations including WhatsApp number",
+      "type": "object",
+      "properties": {
+        "storeName": { "type": "string" },
+        "phone": { "type": "string" },
+        "whatsappNumber": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "upiId": { "type": "string" },
+        "dispatchNote": { "type": "string" },
+        "staffAdminPin": { "type": "string" },
+        "staffSupplierPin": { "type": "string" }
+      },
+      "required": ["storeName", "whatsappNumber", "staffAdminPin", "staffSupplierPin"]
+    },
+    "FCMDispatchLog": {
+      "title": "FCMDispatchLog",
+      "description": "Log of Firebase Cloud Messaging push notifications dispatched for order workflow stages",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderId": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "stage": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "recipientUserId": { "type": "string" },
+        "recipientName": { "type": "string" },
+        "recipientPhone": { "type": "string" },
+        "fcmToken": { "type": "string" },
+        "dispatchedAt": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "orderId", "orderNumber", "stage", "title", "body", "recipientUserId", "status"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of pooja and spiritual items"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Collection of storefront categories"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Orders submitted by customers and handled by suppliers"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Directory of user profiles and business roles"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "AppNotification",
+      "description": "Persistent in-app notification records"
+    },
+    "/settings/{settingId}": {
+      "schema": "ShopSettings",
+      "description": "Store operational settings and contact numbers"
+    },
+    "/fcm_dispatches/{dispatchId}": {
+      "schema": "FCMDispatchLog",
+      "description": "Historical log of order stage push notifications dispatched via FCM"
+    },
+    "/fcm_tokens/{tokenId}": {
+      "schema": "object",
+      "description": "Registered device push tokens for Firebase Cloud Messaging"
+    }
+  }
+}
